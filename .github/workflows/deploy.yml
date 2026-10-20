@@ -25,7 +25,7 @@ jobs:
       - run: npm install --no-audit --no-fund
       - run: npm run build
         env:
-          VITE_BASE: /Grohair-Mogappair-Hair/
+          VITE_BASE: /Grohair-Warangal-hair/
       - run: cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:

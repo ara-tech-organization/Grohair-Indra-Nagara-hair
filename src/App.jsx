@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState, useEffect, useCallback, useRef } from "react";
 import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 import "./App.css";
-import logo from "./assets/Logo.png";
+import logo from "./assets/Logo/Logo.png";
 import heroBg from "./assets/hero-bg.jpg";
 import prpImg from "./assets/prp.jpg";
 import gfcImg from "./assets/gfc.jpg";
@@ -136,8 +136,8 @@ const trustChecklist = [
   { icon: LockIcon, text: "Your details are never shared or sold" },
 ];
 
-const PHONE_NUMBER = "tel:+918270956789";
-const BASE_PATH = "/hair-growth-solutions";
+const PHONE_NUMBER = "tel:+919418856789";
+const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const problems = [
   {
@@ -253,24 +253,24 @@ function ProblemsCarousel() {
 
 const reviews = [
   {
-    name: "Sai Sathish Rosh",
+    name: "Sneha Raji",
     time: "GloSkin client",
-    text: "I'm absolutely delighted with the Glutathione treatment I received at the Mogappair branch! I wholeheartedly recommend this place for their exceptional service and outstanding results.",
+    text: "Never thought I'd love my skin this much. Every session was pure magic — the glow is real.",
   },
   {
-    name: "Jaya Kummar",
-    time: "HydraFacial client",
-    text: "Treatments are good, 100% safe, I had hydra facial and got stunned with the result. Staffs and doctors are very respectful.",
-  },
-  {
-    name: "Sumanth Ravi",
+    name: "Bhavik Kumar",
     time: "GroHair client",
-    text: "I have visited Adv GroHair Mogappair for hair fall problem and consulted Dr Nikitha. This is my 4th session, I have visible results and I'm really happy with it. Much recommended.",
+    text: "Professional, clean, and deeply caring. Warangal needed a place like this. Blessings!",
   },
   {
-    name: "Arun Viran",
-    time: "Clinic visitor",
-    text: "Very hygienic and well maintained. Good to visit again for the treatment.",
+    name: "Meera Laxmi",
+    time: "Acne care patient",
+    text: "Doctor explained every detail with patience. My acne is gone and my confidence is back.",
+  },
+  {
+    name: "Harish V",
+    time: "Hair restoration patient",
+    text: "From bald spots to full locks — what a transformation! Truly life-changing care.",
   },
 ];
 
@@ -465,7 +465,7 @@ function BookingForm({ formId = "book-form", popup = false }) {
       }),
       treatment: formData.treatment || "N/A",
       message: formData.city ? "City: " + formData.city : "N/A",
-      source: "Grohair Mogappair Landing Page",
+      source: "Grohair Warangal Landing Page",
     };
 
     try {
@@ -663,8 +663,8 @@ function CallPopup({ isOpen, onClose }) {
           <br />
           &amp; GloSkin
         </h3>
-        <p className="call-popup-location">Mogappair</p>
-        <p className="call-popup-number">+91 82709 56789</p>
+        <p className="call-popup-location">Warangal</p>
+        <p className="call-popup-number">+91 94188 56789</p>
 
         <a href={PHONE_NUMBER} className="call-popup-btn">
           <PhoneIcon />
@@ -792,7 +792,7 @@ function HomePage() {
             <div className="hero-text">
               <h1>
                 Best <span className="hero-highlight">Hair Clinic</span> in
-                Mogappair
+                Warangal
               </h1>
 
               <div className="hero-trust-row">
@@ -812,7 +812,7 @@ function HomePage() {
               </div>
 
               <h2 className="hero-subtitle">
-                Personalized hair treatments in Mogappair with expert hair
+                Personalized hair treatments in Warangal with expert hair
                 doctors, offering professional solutions for hair loss, hair
                 fall, hair thinning, and other hair and scalp concerns
               </h2>
@@ -833,7 +833,7 @@ function HomePage() {
       <section className="book-form-section">
         <div className="book-form-heading">
           <h2>
-            Book a Consultation in <span className="text-red">Mogappair</span>
+            Book a Consultation in <span className="text-red">Warangal</span>
           </h2>
 
           <ul className="trust-checklist">
@@ -1118,17 +1118,17 @@ function HomePage() {
           <div className="footer-contact">
             <h4>Contact Us</h4>
             <a
-              href="mailto:mogappair@adgrohair.com"
+              href="mailto:warangal@grohair.com"
               className="contact-item"
             >
               <MailIcon />
               <span className="contact-email">
-                mogappair@adgrohair.com
+                warangal@grohair.com
               </span>
             </a>
             <a href={PHONE_NUMBER} className="contact-item">
               <PhoneIcon />
-              <span>82709 56789</span>
+              <span>94188 56789</span>
             </a>
           </div>
         </div>
@@ -1138,28 +1138,28 @@ function HomePage() {
 
           <div className="location-cards">
             <div className="location-card">
-              <h5>Mogappair</h5>
+              <h5>Warangal</h5>
               <div className="location-map">
                 <iframe
-                  src="https://maps.google.com/maps?q=Advanced%20GroHair%20%26%20GloSkin%20Clinic%20-%20Mogappair&t=m&z=15&output=embed&iwloc=near"
+                  src="https://www.google.com/maps?q=Advanced%20GroHair%20%26%20GloSkin%20Warangal%2C%20Vaddiraj%20Complex%2C%201-8-526%2C%20Hyderabad%20%E2%80%93%20Warangal%20Hwy%2C%20Nakkala%20Gutta%2C%20Hanamkonda%2C%20Telangana%20506001&output=embed"
                   width="600"
                   height="450"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
-                  title="Grohair Mogappair Location"
+                  title="Grohair Warangal Location"
                 />
               </div>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Advanced+GroHair+%26+GloSkin+Clinic+-+Mogappair"
+                href="https://www.google.com/maps/search/?api=1&query=Advanced%20GroHair%20%26%20GloSkin%20Warangal%2C%20Vaddiraj%20Complex%2C%201-8-526%2C%20Hyderabad%20%E2%80%93%20Warangal%20Hwy%2C%20Nakkala%20Gutta%2C%20Hanamkonda%2C%20Telangana%20506001"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="location-address"
               >
                 <LocationIcon />
                 <span>
-                  No.8, 2nd floor, Bharathi Salai, above Polar Bear ice cream, Mogappair West, Ambattur Industrial Estate, Chennai, Tamil Nadu 600037
+                  Vaddiraj Complex, 1-8-526, Hyderabad – Warangal Hwy, beside Tirumala Music Centre, Nakkala Gutta, Hanamkonda, Telangana 506001
                 </span>
               </a>
             </div>
@@ -1175,7 +1175,7 @@ function HomePage() {
       <div className="sticky-cta">
         <a href={PHONE_NUMBER} className="cta-button sticky">
           <PhoneIcon />
-          BOOK INSTANT CONSULTATION - 82709 56789
+          BOOK INSTANT CONSULTATION - 94188 56789
         </a>
       </div>
 
