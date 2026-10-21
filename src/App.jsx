@@ -448,29 +448,18 @@ function BookingForm({ formId = "book-form", popup = false }) {
     e.preventDefault();
     setIsSubmitting(true);
 
-    const now = new Date();
     const apiData = {
       name: formData.name || "N/A",
       email: "N/A",
       phone: formData.phone || "N/A",
-      date: now.toLocaleDateString("en-IN", {
-        year: "numeric",
-        month: "2-digit",
-        day: "2-digit",
-      }),
-      time: now.toLocaleTimeString("en-IN", {
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: true,
-      }),
       treatment: formData.treatment || "N/A",
-      message: formData.city ? "City: " + formData.city : "N/A",
+      message: formData.city || "N/A",
       source: "Grohair Warangal Landing Page",
     };
 
     try {
       const response = await fetch(
-        "https://adgrohairgloskinkaraikal.com/api/email.php",
+        "https://adgrohairgloskinwarangal.com/api/email.php",
         {
           method: "POST",
           headers: {
