@@ -1115,12 +1115,12 @@ function HomePage() {
           <div className="footer-contact">
             <h4>Contact Us</h4>
             <a
-              href="mailto:advancegrohairgloskintpt@gmail.com"
+              href="mailto:indiranagar@adgrohair.com"
               className="contact-item"
             >
               <MailIcon />
               <span className="contact-email">
-                advancegrohairgloskintpt@gmail.com
+                indiranagar@adgrohair.com
               </span>
             </a>
             <a href={PHONE_NUMBER} className="contact-item">
