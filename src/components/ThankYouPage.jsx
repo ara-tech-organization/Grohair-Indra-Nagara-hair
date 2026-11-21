@@ -56,8 +56,8 @@ function ThankYouPage() {
 
         <div className="thankyou-contact">
           <span>Need urgent help?</span>
-          <a href="tel:+919418856789" className="thankyou-phone">
-            <PhoneIcon /> +91 94188 56789
+          <a href="tel:08497856789" className="thankyou-phone">
+            <PhoneIcon /> 084978 56789
           </a>
         </div>
 

@@ -1,7 +1,7 @@
 import { lazy, Suspense, useState, useEffect, useCallback, useRef } from "react";
 import { Routes, Route, useNavigate, useParams } from "react-router-dom";
 import "./App.css";
-import logo from "./assets/Logo/Logo.png";
+import logo from "./assets/Logo/Logo.webp";
 import heroBg from "./assets/hero-bg.jpg";
 import prpImg from "./assets/prp.jpg";
 import gfcImg from "./assets/gfc.jpg";
@@ -136,7 +136,7 @@ const trustChecklist = [
   { icon: LockIcon, text: "Your details are never shared or sold" },
 ];
 
-const PHONE_NUMBER = "tel:+919418856789";
+const PHONE_NUMBER = "tel:08497856789";
 const BASE_PATH = import.meta.env.BASE_URL.replace(/\/$/, "");
 
 const problems = [
@@ -253,24 +253,24 @@ function ProblemsCarousel() {
 
 const reviews = [
   {
-    name: "Sneha Raji",
-    time: "GloSkin client",
-    text: "Never thought I'd love my skin this much. Every session was pure magic — the glow is real.",
+    name: "Ragavi R",
+    time: "Google review",
+    text: "Excellent experience at Advanced Gro Hair & Skin Clinic — the doctor and staff are very professional and friendly. The overall atmosphere is very clean and welcoming. Highly recommended for hair and skin treatment.",
   },
   {
-    name: "Bhavik Kumar",
-    time: "GroHair client",
-    text: "Professional, clean, and deeply caring. Warangal needed a place like this. Blessings!",
+    name: "Manoj Pradap",
+    time: "Google review",
+    text: "Dr. Anita explained my skin and hair health in simple, everyday terms rather than confusing medical terms, making it incredibly easy to understand. Highly recommend!",
   },
   {
-    name: "Meera Laxmi",
-    time: "Acne care patient",
-    text: "Doctor explained every detail with patience. My acne is gone and my confidence is back.",
+    name: "Sindhu Sri",
+    time: "Google review",
+    text: "My first time consulting about skin and hair — I gained so much knowledge, took a skin test, and learned the do's and don'ts to follow in my routine.",
   },
   {
-    name: "Harish V",
-    time: "Hair restoration patient",
-    text: "From bald spots to full locks — what a transformation! Truly life-changing care.",
+    name: "Kokila Devaraj",
+    time: "Google review",
+    text: "Great atmosphere, friendly staff, and excellent hair & skincare service. Highly recommended!",
   },
 ];
 
@@ -429,6 +429,12 @@ function CustomDropdown({
   );
 }
 
+// Clinic code for the Discover webhook — confirm "tirupattur" is the right CLIENT code
+const WEBHOOK_URL =
+  "https://tirupattur.discovertechnologies.co/api/v1/integrations/webhooks/website";
+// One id per page load
+const SUBMISSION_ID = crypto.randomUUID();
+
 function BookingForm({ formId = "book-form", popup = false }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -446,56 +452,58 @@ function BookingForm({ formId = "book-form", popup = false }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    // Spam trap: bots fill the hidden field, humans never see it
+    const gotcha = e.currentTarget.elements["_gotcha"]?.value || "";
     setIsSubmitting(true);
 
     const apiData = {
-      name: formData.name || "N/A",
-      email: "N/A",
-      phone: formData.phone || "N/A",
-      treatment: formData.treatment || "N/A",
-      message: formData.city || "N/A",
-      source: "Grohair Warangal Landing Page",
+      name: formData.name,
+      city: formData.city,
+      phone: formData.phone,
+      treatment: formData.treatment,
+      _gotcha: gotcha,
+      submission_id: SUBMISSION_ID,
+      form_id: window.location.pathname,
     };
 
     try {
-      const response = await fetch(
-        "https://adgrohairgloskinwarangal.com/api/email.php",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(apiData),
-        },
-      );
+      const response = await fetch(WEBHOOK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiData),
+      });
 
-      const result = await response.json();
+      if (!response.ok) throw new Error(String(response.status));
 
-      if (result.success) {
-        window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "lead_form_submitted" });
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({ event: "lead_form_submitted" });
 
-        setFormData({
-          name: "",
-          city: "",
-          phone: "",
-          treatment: "",
-        });
-        navigate("/thank-you");
-      } else {
-        alert("Submission failed: " + (result.message || "Unknown error"));
-      }
+      setFormData({ name: "", city: "", phone: "", treatment: "" });
+      navigate("/thank-you");
+      // Button stays disabled after success (page navigates away)
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred. Please try again later.");
-    } finally {
       setIsSubmitting(false);
+      alert(
+        error.message === "429"
+          ? "Too many tries, please wait a few minutes."
+          : "Could not send, please try again.",
+      );
     }
   };
 
   return (
     <form className="booking-form" id={formId} onSubmit={handleSubmit}>
       {popup && <h3>Book Your Consultation</h3>}
+      <input
+        type="text"
+        name="_gotcha"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        style={{ position: "absolute", left: "-9999px", opacity: 0, height: 0 }}
+      />
       <div className="form-group">
         <input
           type="text"
@@ -652,8 +660,8 @@ function CallPopup({ isOpen, onClose }) {
           <br />
           &amp; GloSkin
         </h3>
-        <p className="call-popup-location">Warangal</p>
-        <p className="call-popup-number">+91 94188 56789</p>
+        <p className="call-popup-location">Indiranagar</p>
+        <p className="call-popup-number">084978 56789</p>
 
         <a href={PHONE_NUMBER} className="call-popup-btn">
           <PhoneIcon />
@@ -781,7 +789,7 @@ function HomePage() {
             <div className="hero-text">
               <h1>
                 Best <span className="hero-highlight">Hair Clinic</span> in
-                Warangal
+                Indiranagar
               </h1>
 
               <div className="hero-trust-row">
@@ -801,7 +809,7 @@ function HomePage() {
               </div>
 
               <h2 className="hero-subtitle">
-                Personalized hair treatments in Warangal with expert hair
+                Personalized hair treatments in Indiranagar with expert hair
                 doctors, offering professional solutions for hair loss, hair
                 fall, hair thinning, and other hair and scalp concerns
               </h2>
@@ -822,7 +830,7 @@ function HomePage() {
       <section className="book-form-section">
         <div className="book-form-heading">
           <h2>
-            Book a Consultation in <span className="text-red">Warangal</span>
+            Book a Consultation in <span className="text-red">Indiranagar</span>
           </h2>
 
           <ul className="trust-checklist">
@@ -1107,17 +1115,33 @@ function HomePage() {
           <div className="footer-contact">
             <h4>Contact Us</h4>
             <a
-              href="mailto:warangal@grohair.com"
+              href="mailto:advancegrohairgloskintpt@gmail.com"
               className="contact-item"
             >
               <MailIcon />
               <span className="contact-email">
-                warangal@grohair.com
+                advancegrohairgloskintpt@gmail.com
               </span>
             </a>
             <a href={PHONE_NUMBER} className="contact-item">
               <PhoneIcon />
-              <span>94188 56789</span>
+              <span>084978 56789</span>
+            </a>
+            <a
+              href="https://www.instagram.com/adgrohairclinictirupur"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-item"
+            >
+              <span>Instagram</span>
+            </a>
+            <a
+              href="https://www.facebook.com/profile.php?id=61554126093238"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="contact-item"
+            >
+              <span>Facebook</span>
             </a>
           </div>
         </div>
@@ -1127,28 +1151,28 @@ function HomePage() {
 
           <div className="location-cards">
             <div className="location-card">
-              <h5>Warangal</h5>
+              <h5>Indiranagar</h5>
               <div className="location-map">
                 <iframe
-                  src="https://www.google.com/maps?q=Advanced%20GroHair%20%26%20GloSkin%20Warangal%2C%20Vaddiraj%20Complex%2C%201-8-526%2C%20Hyderabad%20%E2%80%93%20Warangal%20Hwy%2C%20Nakkala%20Gutta%2C%20Hanamkonda%2C%20Telangana%20506001&output=embed"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3928.5039905580797!2d77.6421753798436!3d12.97159885471062!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae17bc9f820e97%3A0x4b0bee8799e233bf!2sAdvanced%20GroHair%20%26%20GloSkin%20-%20IndiraNagar!5e1!3m2!1sen!2sin!4v1795261881926!5m2!1sen!2sin"
                   width="600"
                   height="450"
                   style={{ border: 0 }}
                   allowFullScreen=""
                   loading="lazy"
                   referrerPolicy="strict-origin-when-cross-origin"
-                  title="Grohair Warangal Location"
+                  title="Grohair Indiranagar Location"
                 />
               </div>
               <a
-                href="https://www.google.com/maps/search/?api=1&query=Advanced%20GroHair%20%26%20GloSkin%20Warangal%2C%20Vaddiraj%20Complex%2C%201-8-526%2C%20Hyderabad%20%E2%80%93%20Warangal%20Hwy%2C%20Nakkala%20Gutta%2C%20Hanamkonda%2C%20Telangana%20506001"
+                href="https://www.google.com/maps/search/?api=1&query=Advanced%20GroHair%20%26%20GloSkin%20Indiranagar%2C%201st%20Floor%2C%203049%2C%2080%20Feet%20Rd%2C%20next%20to%20Madurai%20idly%20hotel%2C%208th%20cross%2C%20HAL%202nd%20Stage%2C%20Indiranagar%2C%20Bengaluru%2C%20Karnataka%20560008"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="location-address"
               >
                 <LocationIcon />
                 <span>
-                  Vaddiraj Complex, 1-8-526, Hyderabad – Warangal Hwy, beside Tirumala Music Centre, Nakkala Gutta, Hanamkonda, Telangana 506001
+                  1st Floor, 3049, 80 Feet Rd, next to Madurai idly hotel, 8th cross, HAL 2nd Stage, Indiranagar, Bengaluru, Karnataka 560008
                 </span>
               </a>
             </div>
@@ -1164,7 +1188,7 @@ function HomePage() {
       <div className="sticky-cta">
         <a href={PHONE_NUMBER} className="cta-button sticky">
           <PhoneIcon />
-          BOOK INSTANT CONSULTATION - 94188 56789
+          BOOK INSTANT CONSULTATION - 084978 56789
         </a>
       </div>
 
